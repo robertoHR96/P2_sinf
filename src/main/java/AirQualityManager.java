@@ -47,7 +47,7 @@ public class AirQualityManager extends Configured implements Tool {
 
 
 		job.setMapOutputKeyClass(Text.class); // Tipo de clave de salida del mapper
-		job.setMapOutputValueClass(DoubleWritable.class); // Tipo de valor de salida del mapper
+		job.setMapOutputValueClass(Text.class); // Tipo de valor de salida del mapper
 
 		job.setOutputKeyClass(Text.class); // Tipo de clave de salida del reducer
 		job.setOutputValueClass(Text.class); // Tipo de valor de salida del reducer

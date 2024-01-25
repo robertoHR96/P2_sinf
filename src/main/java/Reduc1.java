@@ -28,21 +28,21 @@ public class Reduc1 extends Reducer<Text, Text, Text, Text> {
      */
     public void reduce(Text key, Iterable<Text> coValues, Context context) throws IOException, InterruptedException {
         double totalCo = 0.0;
-        Integer tot =0;
+        int tot =0;
         String val="";
         HashMap<String, Integer> mapa = new HashMap<String, Integer>();
 
-        final String ciuProd[] = key.toString().split(":");
+        final String ciuProd = key.toString();
 
         // Sumar las cantidades de productos asociadas a la clave
         for (Text coValue : coValues) {
             String ss[] = coValue.toString().split(":");
-            if (ss.length > 2) {
+            if (ss.length >= 2) {
                 if (mapa.containsKey(ss[0])) {
-                    mapa.put(ss[0], (mapa.get(ss[0]) + Integer.parseInt(ss[1]) ));
+                    mapa.put(ss[0], (mapa.get(ss[0]) + (int)Double.parseDouble(ss[1]) ));
                 }else{
 
-                    mapa.put(ss[0], Integer.parseInt(ss[1]) );
+                    mapa.put(ss[0], (int)Double.parseDouble(ss[1]) );
                 }
             }
         }
@@ -54,8 +54,6 @@ public class Reduc1 extends Reducer<Text, Text, Text, Text> {
         }
 
         // Emitir la clave junto con el total de cantidades si es mayor que cero
-        if (totalCo > 0 && (ciuProd.length == 2)) {
-            context.write(new Text(ciuProd[0]), new Text( val+ ":" +tot ));
-        }
+            context.write(new Text(ciuProd), new Text( val+ ":" +new String(String.valueOf(tot)) ));
     }
 }
